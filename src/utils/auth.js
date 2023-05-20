@@ -74,6 +74,12 @@ const getAccessToken = () => {
   return cookie.get(key);
 };
 
+const getRefreshToken = () => {
+  const userId = cookie.get("userId");
+  const key = _generateUniqueTokenKey(constant.AUTH_TOKEN_REFRESH + userId);
+  return cookie.get(key);
+};
+
 const hasPermission = (permissionName) => {
   const permissions = getPermissions();
   try {
@@ -109,5 +115,6 @@ const auth = {
   hasPermission,
   removeCredential,
   removePermissions,
+  getRefreshToken,
 };
 export default auth;

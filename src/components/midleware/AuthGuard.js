@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import auth from "@utils/auth";
+import apis from "@services/auth";
+import constant from "@utils/constant";
 
 import Forbidden from "@components/error/forbidden";
 
@@ -25,6 +27,29 @@ export default function AuthGuard({ permission, children }) {
     return [expirationStatus, lifetimeLeft];
   };
 
+  const refreshTokens = async () => {
+    const response = await apis.getNewTokens();
+    const data = await response.json();
+    if (response.status != 200) return console.log(data.message);
+    auth.storeCredential(data.data);
+  };
+
+  const watchTokenExpiration = () => {
+    const watchToken = () => {
+      const [_, lifetimeLeft] = checkTokenExpiration();
+
+      if (lifetimeLeft > 0 && lifetimeLeft < constant.REFRESH_TOKEN_INTERVAL) {
+        refreshTokens();
+      }
+    };
+    const intervalId = setInterval(
+      watchToken,
+      constant.REALTIME_WATCH_TOKEN_INTERVAL
+    );
+    return intervalId;
+  };
+
+
   const useEffectCallback = () => {
     const loginStatus = auth.getAccessToken();
 
@@ -36,6 +61,11 @@ export default function AuthGuard({ permission, children }) {
     setPermission(permissionStatus);
     setLoginStatus(loginStatus);
     setTokenExpired(expiredStatus);
+
+    if (!expiredStatus) {
+      const intervalId = watchTokenExpiration();
+      return () => clearInterval(intervalId);
+    }
 
   };
 
