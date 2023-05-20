@@ -1,0 +1,18 @@
+.textCenter {
+  text-align: center !important;
+}
+
+.buttonPrimary {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buttonPrimary:hover {
+  background-color: white;
+  color: #007bff;
+}

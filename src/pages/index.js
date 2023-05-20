@@ -1,5 +1,3 @@
-export default function Home() {
-  return (
-    <>Hello World</>
-  )
-}
+import Product from "./product/index";
+
+export default Product
