@@ -51,9 +51,7 @@ export default function AuthGuard({ permission, children }) {
   }
   
   if ( isTokenExpired ) {
-    auth.removeCredential()
-    auth.removePermissions()
-    router.push("/login");
+    router.push("/logout");
     return null;
   }
 

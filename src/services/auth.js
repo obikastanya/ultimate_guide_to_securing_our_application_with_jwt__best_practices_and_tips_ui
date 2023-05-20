@@ -12,9 +12,16 @@ const getPermissions = () => {
   return api.get("/permissions", header);
 };
 
+const logout = () => {
+  const header = { Authorization: "Bearer " + auth.getAccessToken() };
+  return api.post("/logout", header);
+};
+
+
 const apis = {
   login,
   getPermissions,
+  logout
 };
 
 export default apis;
