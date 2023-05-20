@@ -5,6 +5,8 @@ import { useState } from "react";
 import sytles from "@styles/Product.module.css";
 import apis from "@services/product";
 
+import AuthGuard from "@components/midleware/AuthGuard";
+
 function ProductDetail({ id }) {
   const router = useRouter();
 
@@ -65,58 +67,60 @@ function ProductDetail({ id }) {
     router.push("/product");
   };
   return (
-    <div>
-      <form className={sytles.form} onSubmit={handleSubmit}>
-        <h2>Detail Product</h2>
-        <hr />
-        <label>Id</label>
-        <input value={productId} disabled />
-        <label>Title</label>
-        <input
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
-        <label>Description</label>
-        <input
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
-        <label>Price</label>
-        <input
-          type="number"
-          value={price}
-          onChange={(event) => setPrice(event.target.value)}
-        />
-        <label>Discount Percentage</label>
-        <input
-          value={discountpercentage}
-          onChange={(event) => setDiscountPercentage(event.target.value)}
-        />
-        <label>Rating</label>
-        <input
-          value={rating}
-          onChange={(event) => setRating(event.target.value)}
-        />
-        <label>Stock</label>
-        <input
-          value={stock}
-          onChange={(event) => setStock(event.target.value)}
-        />
-        <label>Brand</label>
-        <input
-          value={brand}
-          onChange={(event) => setBrand(event.target.value)}
-        />
-        <label>Category</label>
-        <input
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Update"}
-        </button>
-      </form>
-    </div>
+    <AuthGuard permission="product:update">
+      <div>
+        <form className={sytles.form} onSubmit={handleSubmit}>
+          <h2>Detail Product</h2>
+          <hr />
+          <label>Id</label>
+          <input value={productId} disabled />
+          <label>Title</label>
+          <input
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <label>Description</label>
+          <input
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
+          <label>Price</label>
+          <input
+            type="number"
+            value={price}
+            onChange={(event) => setPrice(event.target.value)}
+          />
+          <label>Discount Percentage</label>
+          <input
+            value={discountpercentage}
+            onChange={(event) => setDiscountPercentage(event.target.value)}
+          />
+          <label>Rating</label>
+          <input
+            value={rating}
+            onChange={(event) => setRating(event.target.value)}
+          />
+          <label>Stock</label>
+          <input
+            value={stock}
+            onChange={(event) => setStock(event.target.value)}
+          />
+          <label>Brand</label>
+          <input
+            value={brand}
+            onChange={(event) => setBrand(event.target.value)}
+          />
+          <label>Category</label>
+          <input
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Loading..." : "Update"}
+          </button>
+        </form>
+      </div>
+    </AuthGuard>
   );
 }
 

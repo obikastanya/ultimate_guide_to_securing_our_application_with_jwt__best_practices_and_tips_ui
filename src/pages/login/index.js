@@ -6,6 +6,8 @@ import auth from "@utils/auth";
 
 import styles from "@styles/Login.module.css";
 
+import LoginGuard from "@components/midleware/LoginGuard";
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,25 +39,27 @@ export default function Login() {
   };
 
   return (
-    <main className={styles.container}>
-      <div>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <label className={styles.label}>Username</label>
-          <input
-            className={styles.input}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-          <label className={styles.label}>Password</label>
-          <input
-            type="password"
-            className={styles.input}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <button type="submit" className={styles.button}>
-            {loading ? "Loading..." : "Log in"}
-          </button>
-        </form>
-      </div>
-    </main>
+    <LoginGuard>
+      <main className={styles.container}>
+        <div>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <label className={styles.label}>Username</label>
+            <input
+              className={styles.input}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+            <label className={styles.label}>Password</label>
+            <input
+              type="password"
+              className={styles.input}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <button type="submit" className={styles.button}>
+              {loading ? "Loading..." : "Log in"}
+            </button>
+          </form>
+        </div>
+      </main>
+    </LoginGuard>
   );
 }

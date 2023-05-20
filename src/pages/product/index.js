@@ -1,15 +1,22 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import sytles from "@styles/Product.module.css";
 import Link from "next/link";
 
-import apis from "@services/product";
+import sytles from "@styles/Product.module.css";
 
+import apis from "@services/product";
+import auth from "@utils/auth";
+
+import AuthGuard from "@components/midleware/AuthGuard";
 
 export default function Product() {
   const [loading, setLoading] = useState("");
   const [products, setProducts] = useState([]);
   const [reloadData, setReloadData] = useState(false);
+
+  const [hasCreatePermission, setCreatePermission] = useState(false);
+  const [hasUpdatePermission, setUpdatePermission] = useState(false);
+  const [hasDeletePermission, setDeletePermission] = useState(false);
 
   const handleClickDelete = async (event) => {
     event.preventDefault();
@@ -31,7 +38,10 @@ export default function Product() {
   };
 
   const useEffectCallback = () => {
-    
+    setCreatePermission(auth.hasPermission("product:create"));
+    setUpdatePermission(auth.hasPermission("product:update"));
+    setDeletePermission(auth.hasPermission("product:delete"));
+
     async function fetchData() {
       setLoading(true);
       const response = await apis.getProducts();
@@ -50,10 +60,11 @@ export default function Product() {
 
   if (loading) return <p>Loading...</p>;
   return (
+    <AuthGuard permission="product:view">
       <div className={sytles.container}>
         <h2>Product List</h2>
         <Link href="/product/new">
-          <button className={sytles.button}>
+          <button className={sytles.button} hidden={!hasCreatePermission}>
             Add
           </button>
         </Link>
@@ -89,6 +100,7 @@ export default function Product() {
                     <Link href={`/product/${row.id}`}>
                       <button
                         className={sytles.mg5}
+                        disabled={!hasUpdatePermission}
                       >
                         Edit
                       </button>
@@ -97,6 +109,7 @@ export default function Product() {
                       className={sytles.mg5}
                       data-index={index}
                       onClick={handleClickDelete}
+                      disabled={!hasDeletePermission}
                     >
                       Delete
                     </button>
@@ -113,5 +126,6 @@ export default function Product() {
           </tbody>
         </table>
       </div>
+    </AuthGuard>
   );
 }
