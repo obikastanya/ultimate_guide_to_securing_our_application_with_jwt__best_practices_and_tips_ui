@@ -7,7 +7,7 @@ import sytles from "@styles/Product.module.css";
 import apis from "@services/product";
 import auth from "@utils/auth";
 
-import AuthGuard from "@components/midleware/AuthGuard";
+import AuthGuard from "@components/middleware/AuthGuard";
 
 export default function Product() {
   const [loading, setLoading] = useState("");

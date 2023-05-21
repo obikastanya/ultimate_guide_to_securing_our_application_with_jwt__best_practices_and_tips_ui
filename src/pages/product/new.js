@@ -5,7 +5,7 @@ import apis from "@services/product";
 
 import sytles from "@styles/Product.module.css";
 
-import AuthGuard from "@components/midleware/AuthGuard";
+import AuthGuard from "@components/middleware/AuthGuard";
 
 export default function NewProduct() {
   const [id, setId] = useState(0);

@@ -6,7 +6,7 @@ import auth from "@utils/auth";
 
 import styles from "@styles/Login.module.css";
 
-import LoginGuard from "@components/midleware/LoginGuard";
+import LoginGuard from "@components/middleware/LoginGuard";
 
 export default function Login() {
   const [username, setUsername] = useState("");

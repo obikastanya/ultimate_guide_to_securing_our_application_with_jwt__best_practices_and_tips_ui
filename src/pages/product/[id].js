@@ -5,7 +5,7 @@ import { useState } from "react";
 import sytles from "@styles/Product.module.css";
 import apis from "@services/product";
 
-import AuthGuard from "@components/midleware/AuthGuard";
+import AuthGuard from "@components/middleware/AuthGuard";
 
 function ProductDetail({ id }) {
   const router = useRouter();
